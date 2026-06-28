@@ -62,6 +62,18 @@ DATABASE_OBAT = [
     {"nama": "Vesperum (Domperidone)", "kategori": "Dewasa", "indikasi": ["mual", "muntah", "kembung"], "kontraindikasi": ["pendarahan lambung", "gangguan jantung"], "dosis": "Dewasa: 10mg, 3 kali sehari 15-30 menit sebelum makan."},
     {"nama": "Metformin", "kategori": "Dewasa", "indikasi": ["diabetes", "gula darah tinggi", "kencing manis", "gula"], "kontraindikasi": ["gangguan fungsi ginjal berat"], "dosis": "Dewasa: 500mg, 2-3 kali sehari bersama atau sesudah makan."}
 ]
+# --- OBAT LUAR (SALEP & TETES MATA) ---
+    {"nama": "Betason N Salep", "kategori": "Dewasa", "indikasi": ["gatal eksim", "radang kulit", "alergi kulit disertai infeksi", "eksim", "gatal"], "kontraindikasi": ["infeksi virus seperti cacar atau herpes"], "dosis": "Oleskan tipis pada kulit yang bermasalah, 2-3 kali sehari."},
+    {"nama": "Zensoderm Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "radang kulit gatal", "eksim berair", "gatal"], "kontraindikasi": ["alergi betamethasone atau gentamicin"], "dosis": "Oleskan tipis pada area kulit yang terinfeksi, 2-3 kali sehari."},
+    {"nama": "Synalten Salep", "kategori": "Dewasa", "indikasi": ["eksim berat", "radang kulit kronis", "gatal alergi tebal", "gatal"], "kontraindikasi": ["TBC kulit", "infeksi virus"], "dosis": "Oleskan tipis pada area kulit, 2-4 kali sehari."},
+    {"nama": "Betadine Salep", "kategori": "Dewasa", "indikasi": ["luka bakar ringan", "luka robek", "mencegah infeksi luka", "luka"], "kontraindikasi": ["alergi iodium"], "dosis": "Oleskan pada luka setelah dibersihkan, 1-2 kali sehari (bisa ditutup kasa)."},
+    {"nama": "Gentamicin Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "bisul", "impetigo", "luka bernanah"], "kontraindikasi": ["alergi gentamicin"], "dosis": "Oleskan tipis pada luka bernanah/infeksi, 3-4 kali sehari."},
+    {"nama": "Klorfeson Salep", "kategori": "Dewasa", "indikasi": ["alergi kulit", "eksim disertai infeksi bakteri", "gatal radang"], "kontraindikasi": ["infeksi jamur kulit"], "dosis": "Oleskan tipis pada kulit, 2-3 kali sehari."},
+    {"nama": "Ketoconazole Salep", "kategori": "Dewasa", "indikasi": ["jamur kulit", "panu", "kadas", "kurap", "kutu air"], "kontraindicasi": ["alergi ketoconazole"], "dosis": "Oleskan pada area jamur, 1-2 kali sehari. Gunakan terus hingga beberapa hari setelah gejala hilang."},
+    {"nama": "Aciclovir Salep", "kategori": "Dewasa", "indikasi": ["herpes kulit", "dompo", "cacar ular"], "kontraindikasi": ["alergi aciclovir"], "dosis": "Oleskan tiap 4 jam (5 kali sehari) pada area herpes selama 5 hari berturut-turut."},
+    {"nama": "Bioplasenton Salep", "kategori": "Dewasa", "indikasi": ["luka bakar", "luka tekan", "mempercepat penyembuhan luka", "luka"], "kontraindikasi": ["alergi komponen obat"], "dosis": "Oleskan langsung pada luka bakar atau luka luar, 4-6 kali sehari."},
+    {"nama": "Genoint Tetes Mata", "kategori": "Dewasa", "indikasi": ["infeksi mata bakteri", "mata merah bernanah", "konjungtivitis"], "kontraindikasi": ["infeksi mata karena virus atau jamur"], "dosis": "Teteskan 1-2 tetes pada mata yang sakit, setiap 4 jam sekali."},
+    {"nama": "Kloramfenikol Tetes Mata", "kategori": "Dewasa", "indikasi": ["mata merah", "infeksi mata luar", "bintitan bernanah"], "kontraindikasi": ["alergi kloramfenikol"], "dosis": "Teteskan 1-2 tetes pada mata yang sakit, 3-4 kali sehari."},
 
 # TAMPILAN UTAMA WEBSITE
 st.set_page_config(page_title="Asisten Obat Plus", page_icon="💊", layout="centered")
