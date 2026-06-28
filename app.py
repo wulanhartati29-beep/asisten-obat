@@ -1,12 +1,12 @@
 import streamlit as st
 
-# DATABASE OBAT DENGAN FORMAT KALKULATOR DOSIS
+# DATABASE OBAT LENGKAP: ANAK (BB), DEWASA, & SALEP/TETES MATA
 DATABASE_OBAT = [
     # --- OBAT SIRUP ANAK DENGAN RUMUS DOSIS BB ---
     {
         "nama": "Yusimox Sirup (Amoxicillin 125mg/5ml)", 
         "kategori": "Anak",
-        "indikasi": ["infeksi bakteri", "sakit gigi anak", "radang tenggorokan bakteri anak"], 
+        "indikasi": ["infeksi bakteri", "sakit gigi anak", "radang tenggorokan bakteri anak", "batuk", "demam"], 
         "kontraindikasi": ["alergi penisilin"], 
         "rumus_bb": lambda bb: f"{(bb * 30) / 3 / 125 * 5:.1f} ml setiap 8 jam (3 kali sehari). \n*(Rumus standar: 30mg/kgBB/hari dibagi 3 dosis, sediaan 125mg/5ml)*"
     },
@@ -39,41 +39,40 @@ DATABASE_OBAT = [
         "rumus_bb": lambda bb: "2.5 ml (10mg) 1 kali sehari selama 10 hari berturut-turut." if bb < 10 else "5.0 ml (20mg) 1 kali sehari selama 10 hari berturut-turut. \n*(Wajib dihabiskan meskipun diare sudah sembuh)*"
     },
     
-    # --- OBAT SIRUP ANAK DOSIS FIX (BERDASARKAN RANGE USIA UMUM) ---
-    {"nama": "Ternix Sirup (Flu & Batuk Anak)", "kategori": "Anak", "indikasi": ["flu anak", "batuk", "demam anak", "pilek bersin", "demam", "flu"], "kontraindikasi": ["gangguan fungsi hati berat"], "dosis_fix": "Anak 2-6 tahun: 5ml (1 sendok takar), 3 kali sehari sesudah makan."},
-    {"nama": "Ternix Plus Sirup", "kategori": "Anak", "indikasi": ["flu anak disertai batuk berdahak", "batuk berdahak anak", "demam pilek anak", "batuk", "demam", "flu"], "kontraindikasi": ["hipertensi berat"], "dosis_fix": "Anak 6-12 tahun: 10ml (2 sendok takar), 3 kali sehari sesudah makan."},
-    {"nama": "Coldrexin Sirup", "kategori": "Anak", "indikasi": ["flu anak", "demam pilek anak", "batuk flu anak", "demam", "batuk", "flu"], "kontraindikasi": ["gangguan fungsi hati berat"], "dosis_fix": "Anak 2-6 tahun: 5ml (1 sendok takar), 3 kali sehari sesudah makan."},
-    {"nama": "Zenirex Sirup", "kategori": "Anak", "indikasi": ["batuk anak", "batuk berdahak disertai alergi", "flu batuk anak", "batuk"], "kontraindikasi": ["anak di bawah 2 tahun tanpa pengawasan"], "dosis_fix": "Anak 2-6 tahun: 2.5ml - 5ml, 3 kali sehari sesudah makan."},
-    {"nama": "Biolysin Sirup", "kategori": "Anak", "indikasi": ["suplemen anak", "nafsu makan anak", "vitamin pertumbuhan anak"], "kontraindikasi": ["hipervitaminosis"], "dosis_fix": "Anak 1-12 tahun: 5ml (1 sendok takar), 1 kali sehari sesudah makan."},
-    {"nama": "Guanistrep Sirup", "kategori": "Anak", "indikasi": ["diare anak", "mencret anak", "diare"], "kontraindikasi": ["konstipasi"], "dosis_fix": "Anak 3-6 tahun: 5ml-10ml (1-2 sendok takar) setiap setelah buang air besar."},
-    {"nama": "Oratifed Sirup", "kategori": "Anak", "indikasi": ["flu pilek anak", "hidung tersumbat", "batuk alergi anak", "batuk", "flu", "pilek"], "kontraindikasi": ["hipertensi berat"], "dosis_fix": "Anak 2-6 tahun: 2.5ml (1/2 sendok takar), 3 kali sehari sesudah makan."},
-    {"nama": "Lambucid Sirup", "kategori": "Anak", "indikasi": ["sakit maag", "kembung cair", "asam lambung anak dewasa", "perih lambung", "mual", "maag", "lambung"], "kontraindikasi": ["gangguan ginjal berat"], "dosis_fix": "Anak 6-12 tahun: 2.5ml - 5ml (1/2 - 1 sendok takar), 3-4 kali sehari sebelum makan."},
+    # --- OBAT SIRUP ANAK DOSIS FIX (BERDASARKAN RANGE USIA) ---
+    {"nama": "Ternix Sirup", "kategori": "Anak", "indikasi": ["flu anak", "batuk", "demam anak", "pilek", "demam", "flu"], "kontraindikasi": ["gangguan fungsi hati berat"], "dosis_fix": "Anak 2-6 th: 5ml (1 sdt), 3x sehari sesudah makan."},
+    {"nama": "Ternix Plus Sirup", "kategori": "Anak", "indikasi": ["flu anak disertai batuk", "batuk berdahak anak", "batuk", "demam", "flu"], "kontraindikasi": ["hipertensi berat"], "dosis_fix": "Anak 6-12 th: 10ml (2 sdt), 3x sehari sesudah makan."},
+    {"nama": "Coldrexin Sirup", "kategori": "Anak", "indikasi": ["flu anak", "demam pilek anak", "batuk", "demam", "flu"], "kontraindikasi": ["gangguan fungsi hati berat"], "dosis_fix": "Anak 2-6 th: 5ml (1 sdt), 3x sehari sesudah makan."},
+    {"nama": "Zenirex Sirup", "kategori": "Anak", "indikasi": ["batuk anak", "batuk berdahak", "batuk"], "kontraindikasi": ["anak di bawah 2 tahun"], "dosis_fix": "Anak 2-6 th: 2.5ml - 5ml, 3x sehari."},
+    {"nama": "Biolysin Sirup", "kategori": "Anak", "indikasi": ["suplemen anak", "nafsu makan anak", "vitamin"], "kontraindikasi": ["hipervitaminosis"], "dosis_fix": "Anak 1-12 th: 5ml (1 sdt), 1x sehari."},
+    {"nama": "Guanistrep Sirup", "kategori": "Anak", "indikasi": ["diare anak", "mencret", "diare"], "kontraindikasi": ["konstipasi"], "dosis_fix": "Anak 3-6 th: 5ml-10ml tiap setelah BAB."},
+    {"nama": "Oratifed Sirup", "kategori": "Anak", "indikasi": ["flu pilek anak", "hidung tersumbat", "batuk", "flu", "pilek"], "kontraindikasi": ["hipertensi berat"], "dosis_fix": "Anak 2-6 th: 2.5ml (1/2 sdt), 3x sehari."},
+    {"nama": "Lambucid Sirup", "kategori": "Anak", "indikasi": ["sakit maag", "kembung", "mual", "maag", "lambung"], "kontraindikasi": ["gangguan ginjal berat"], "dosis_fix": "Anak 6-12 th: 2.5ml - 5ml (1/2 - 1 sdt), 3-4x sehari."},
 
     # --- OBAT DEWASA (TABLET / KAPLET) ---
-    {"nama": "Aciclovir Tablet", "kategori": "Dewasa", "indikasi": ["herpes", "cacar air", "infeksi virus"], "kontraindikasi": ["gangguan ginjal berat"], "dosis": "Dewasa: 200mg - 400mg, 5 kali sehari (tiap 4 jam) sesudah makan."},
-    {"nama": "Ketoconazole Tablet", "kategori": "Dewasa", "indikasi": ["panu", "kadas", "infeksi jamur", "jamur"], "kontraindicasi": ["gangguan hati berat"], "dosis": "Dewasa: 200mg, 1 kali sehari bersama makan."},
-    {"nama": "Cotrimoxazole Tablet", "kategori": "Dewasa", "indikasi": ["infeksi bakteri", "infeksi saluran kemih", "isk"], "kontraindikasi": ["gangguan fungsi hati berat", "kehamilan"], "dosis": "Dewasa: 2 tablet, 2 kali sehari sesudah makan."},
-    {"nama": "Asam Mefenamat", "kategori": "Dewasa", "indikasi": ["nyeri gigi", "nyeri haid", "nyeri otot", "pusing", "sakit kepala", "nyeri"], "kontraindikasi": ["sakit maag berat", "tukak lambung"], "dosis": "Dewasa: 500mg, 3 kali sehari sesudah makan."},
-    {"nama": "Parasetamol / Fasidol", "kategori": "Dewasa", "indikasi": ["demam", "pusing", "sakit kepala", "nyeri"], "kontraindikasi": ["gangguan hati berat"], "dosis": "Dewasa: 500mg, 3-4 kali sehari sesudah makan."},
-    {"nama": "Cefixime 100mg", "kategori": "Dewasa", "indikasi": ["infeksi bakteri", "infeksi saluran kemih", "isk", "gonore"], "kontraindikasi": ["alergi antibiotik sefalosforin"], "dosis": "Dewasa: 1-2 kapsul, 2 kali sehari sesudah makan."},
-    {"nama": "Amlodipin", "kategori": "Dewasa", "indikasi": ["hipertensi", "tekanan darah tinggi", "tensi"], "kontraindikasi": ["hipotensi berat"], "dosis": "Dewasa: 5mg - 10mg, 1 kali sehari pagi atau malam."},
-    {"nama": "Omeprazole", "kategori": "Dewasa", "indikasi": ["sakit maag", "asam lambung", "gerd", "mual", "maag"], "kontraindikasi": ["alergi omeprazole"], "dosis": "Dewasa: 20mg, 1-2 kali sehari 30 menit sebelum makan."},
-    {"nama": "Ondansetron", "kategori": "Dewasa", "indikasi": ["mual", "muntah"], "kontraindikasi": ["alergi ondansetron"], "dosis": "Dewasa: 4mg - 8mg, 2-3 kali sehari sebelum makan."},
-    {"nama": "Vesperum (Domperidone)", "kategori": "Dewasa", "indikasi": ["mual", "muntah", "kembung"], "kontraindikasi": ["pendarahan lambung", "gangguan jantung"], "dosis": "Dewasa: 10mg, 3 kali sehari 15-30 menit sebelum makan."},
-    {"nama": "Metformin", "kategori": "Dewasa", "indikasi": ["diabetes", "gula darah tinggi", "kencing manis", "gula"], "kontraindikasi": ["gangguan fungsi ginjal berat"], "dosis": "Dewasa: 500mg, 2-3 kali sehari bersama atau sesudah makan."}
+    {"nama": "Aciclovir Tablet", "kategori": "Dewasa", "indikasi": ["herpes", "cacar air", "virus"], "kontraindikasi": ["gangguan ginjal berat"], "dosis": "Dewasa: 200mg - 400mg, 5x sehari sesudah makan."},
+    {"nama": "Ketoconazole Tablet", "kategori": "Dewasa", "indikasi": ["panu", "kadas", "jamur"], "kontraindikasi": ["gangguan hati berat"], "dosis": "Dewasa: 200mg, 1x sehari bersama makan."},
+    {"nama": "Asam Mefenamat", "kategori": "Dewasa", "indikasi": ["nyeri gigi", "nyeri haid", "nyeri otot", "pusing", "sakit kepala", "nyeri"], "kontraindikasi": ["sakit maag berat"], "dosis": "Dewasa: 500mg, 3x sehari sesudah makan."},
+    {"nama": "Parasetamol / Fasidol", "kategori": "Dewasa", "indikasi": ["demam", "pusing", "sakit kepala", "nyeri"], "kontraindikasi": ["gangguan hati berat"], "dosis": "Dewasa: 500mg, 3-4x sehari sesudah makan."},
+    {"nama": "Amlodipin", "kategori": "Dewasa", "indikasi": ["hipertensi", "tekanan darah tinggi", "tensi"], "kontraindikasi": ["hipotensi berat"], "dosis": "Dewasa: 5mg - 10mg, 1x sehari pagi atau malam."},
+    {"nama": "Omeprazole", "kategori": "Dewasa", "indikasi": ["sakit maag", "asam lambung", "gerd", "mual", "maag"], "kontraindikasi": ["alergi omeprazole"], "dosis": "Dewasa: 20mg, 1-2x sehari 30 menit sebelum makan."},
+    {"nama": "Ondansetron", "kategori": "Dewasa", "indikasi": ["mual", "muntah"], "kontraindikasi": ["alergi ondansetron"], "dosis": "Dewasa: 4mg - 8mg, 2-3x sehari sebelum makan."},
+    {"nama": "Vesperum (Domperidone)", "kategori": "Dewasa", "indikasi": ["mual", "muntah", "kembung"], "kontraindikasi": ["gangguan jantung"], "dosis": "Dewasa: 10mg, 3x sehari sebelum makan."},
+    {"nama": "Metformin", "kategori": "Dewasa", "indikasi": ["diabetes", "gula darah tinggi", "kencing manis", "gula"], "kontraindikasi": ["gangguan ginjal berat"], "dosis": "Dewasa: 500mg, 2-3x sehari sesudah makan."},
+
+    # --- OBAT LUAR (SALEP & TETES MATA) ---
+    {"nama": "Betason N Salep", "kategori": "Dewasa", "indikasi": ["gatal eksim", "radang kulit", "alergi kulit", "eksim", "gatal"], "kontraindikasi": ["infeksi virus aktif"], "dosis": "Oleskan tipis, 2-3 kali sehari."},
+    {"nama": "Zensoderm Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "radang kulit gatal", "eksim berair", "gatal"], "kontraindikasi": ["alergi betamethasone"], "dosis": "Oleskan tipis, 2-3 kali sehari."},
+    {"nama": "Synalten Salep", "kategori": "Dewasa", "indikasi": ["eksim berat", "radang kulit kronis", "gatal alergi tebal", "gatal"], "kontraindikasi": ["TBC kulit"], "dosis": "Oleskan tipis, 2-4 kali sehari."},
+    {"nama": "Betadine Salep", "kategori": "Dewasa", "indikasi": ["luka bakar ringan", "luka robek", "infeksi luka", "luka"], "kontraindikasi": ["alergi iodium"], "dosis": "Oleskan pada luka 1-2 kali sehari."},
+    {"nama": "Gentamicin Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "bisul", "impetigo", "luka bernanah"], "kontraindikasi": ["alergi gentamicin"], "dosis": "Oleskan tipis pada luka, 3-4 kali sehari."},
+    {"nama": "Klorfeson Salep", "kategori": "Dewasa", "indikasi": ["alergi kulit", "eksim infeksi bakteri", "gatal radang"], "kontraindikasi": ["infeksi jamur kulit"], "dosis": "Oleskan tipis pada kulit, 2-3 kali sehari."},
+    {"nama": "Ketoconazole Salep", "kategori": "Dewasa", "indikasi": ["jamur kulit", "panu", "kadas", "kurap", "kutu air"], "kontraindikasi": ["alergi ketoconazole"], "dosis": "Oleskan pada area jamur, 1-2 kali sehari."},
+    {"nama": "Aciclovir Salep", "kategori": "Dewasa", "indikasi": ["herpes kulit", "dompo", "cacar ular"], "kontraindikasi": ["alergi aciclovir"], "dosis": "Oleskan tiap 4 jam (5x sehari) selama 5 hari."},
+    {"nama": "Bioplasenton Salep", "kategori": "Dewasa", "indikasi": ["luka bakar", "luka tekan", "pemulihan luka", "luka"], "kontraindikasi": ["alergi komponen obat"], "dosis": "Oleskan langsung pada luka, 4-6 kali sehari."},
+    {"nama": "Genoint Tetes Mata", "kategori": "Dewasa", "indikasi": ["infeksi mata bakteri", "mata merah bernanah", "mata bernanah"], "kontraindikasi": ["infeksi virus/jamur mata"], "dosis": "Teteskan 1-2 tetes setiap 4 jam sekali."},
+    {"nama": "Kloramfenikol Tetes Mata", "kategori": "Dewasa", "indikasi": ["mata merah", "infeksi mata luar", "bintitan bernanah"], "kontraindikasi": ["alergi kloramfenikol"], "dosis": "Teteskan 1-2 tetes, 3-4 kali sehari."}
 ]
-# --- OBAT LUAR (SALEP & TETES MATA) ---
-    {"nama": "Betason N Salep", "kategori": "Dewasa", "indikasi": ["gatal eksim", "radang kulit", "alergi kulit disertai infeksi", "eksim", "gatal"], "kontraindikasi": ["infeksi virus seperti cacar atau herpes"], "dosis": "Oleskan tipis pada kulit yang bermasalah, 2-3 kali sehari."},
-    {"nama": "Zensoderm Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "radang kulit gatal", "eksim berair", "gatal"], "kontraindikasi": ["alergi betamethasone atau gentamicin"], "dosis": "Oleskan tipis pada area kulit yang terinfeksi, 2-3 kali sehari."},
-    {"nama": "Synalten Salep", "kategori": "Dewasa", "indikasi": ["eksim berat", "radang kulit kronis", "gatal alergi tebal", "gatal"], "kontraindikasi": ["TBC kulit", "infeksi virus"], "dosis": "Oleskan tipis pada area kulit, 2-4 kali sehari."},
-    {"nama": "Betadine Salep", "kategori": "Dewasa", "indikasi": ["luka bakar ringan", "luka robek", "mencegah infeksi luka", "luka"], "kontraindikasi": ["alergi iodium"], "dosis": "Oleskan pada luka setelah dibersihkan, 1-2 kali sehari (bisa ditutup kasa)."},
-    {"nama": "Gentamicin Salep", "kategori": "Dewasa", "indikasi": ["infeksi bakteri kulit", "bisul", "impetigo", "luka bernanah"], "kontraindikasi": ["alergi gentamicin"], "dosis": "Oleskan tipis pada luka bernanah/infeksi, 3-4 kali sehari."},
-    {"nama": "Klorfeson Salep", "kategori": "Dewasa", "indikasi": ["alergi kulit", "eksim disertai infeksi bakteri", "gatal radang"], "kontraindikasi": ["infeksi jamur kulit"], "dosis": "Oleskan tipis pada kulit, 2-3 kali sehari."},
-    {"nama": "Ketoconazole Salep", "kategori": "Dewasa", "indikasi": ["jamur kulit", "panu", "kadas", "kurap", "kutu air"], "kontraindicasi": ["alergi ketoconazole"], "dosis": "Oleskan pada area jamur, 1-2 kali sehari. Gunakan terus hingga beberapa hari setelah gejala hilang."},
-    {"nama": "Aciclovir Salep", "kategori": "Dewasa", "indikasi": ["herpes kulit", "dompo", "cacar ular"], "kontraindikasi": ["alergi aciclovir"], "dosis": "Oleskan tiap 4 jam (5 kali sehari) pada area herpes selama 5 hari berturut-turut."},
-    {"nama": "Bioplasenton Salep", "kategori": "Dewasa", "indikasi": ["luka bakar", "luka tekan", "mempercepat penyembuhan luka", "luka"], "kontraindikasi": ["alergi komponen obat"], "dosis": "Oleskan langsung pada luka bakar atau luka luar, 4-6 kali sehari."},
-    {"nama": "Genoint Tetes Mata", "kategori": "Dewasa", "indikasi": ["infeksi mata bakteri", "mata merah bernanah", "konjungtivitis"], "kontraindikasi": ["infeksi mata karena virus atau jamur"], "dosis": "Teteskan 1-2 tetes pada mata yang sakit, setiap 4 jam sekali."},
-    {"nama": "Kloramfenikol Tetes Mata", "kategori": "Dewasa", "indikasi": ["mata merah", "infeksi mata luar", "bintitan bernanah"], "kontraindikasi": ["alergi kloramfenikol"], "dosis": "Teteskan 1-2 tetes pada mata yang sakit, 3-4 kali sehari."},
 
 # TAMPILAN UTAMA WEBSITE
 st.set_page_config(page_title="Asisten Obat Plus", page_icon="💊", layout="centered")
@@ -91,13 +90,12 @@ if kategori_pasien == "Pasien Anak-Anak":
     berat_badan = st.number_input("Masukkan Berat Badan Anak (kg):", min_value=0.0, max_value=100.0, value=10.0, step=0.5)
 
 # INPUT KELUHAN & KONTRAINDIKASI
-keluhan_input = st.text_input("Masukkan Keluhan / Gejala Utama:", placeholder="Contoh: demam, batuk, pusing")
+keluhan_input = st.text_input("Masukkan Keluhan / Gejala Utama:", placeholder="Contoh: demam, batuk, gatal, mata merah")
 kondisi_input = st.text_input("Masukkan Kondisi Penyerta / Kontraindikasi (Jika tidak ada, kosongkan):", placeholder="Contoh: alergi penisilin, sakit maag")
 
 # PROSES SKRINING
 if st.button("Hitung & Cek Rekomendasi Obat", type="primary"):
     if keluhan_input:
-        # Membersihkan kata penghubung tidak penting dan memecah keluhan menjadi kata mandiri
         stop_words = ["dan", "yang", "dengan", "atau", "pada", "ada", "bisa"]
         keluhan_words = [word.strip(",. ") for word in keluhan_input.lower().split() if word.strip(",. ") not in stop_words and len(word) > 1]
         
@@ -106,21 +104,16 @@ if st.button("Hitung & Cek Rekomendasi Obat", type="primary"):
         
         obat_rekomendasi = []
         for obat in DATABASE_OBAT:
-            # Filter Kategori Pasien
             if obat["kategori"] == kat_filter:
-                
-                # LOGIKA PERBAIKAN: Harus mencocokkan kata secara utuh (Exact Match Sub-string)
                 cocok_indikasi = False
                 for word in keluhan_words:
                     for indika in obat["indikasi"]:
-                        # Memastikan kata keluhan benar-benar ada sebagai satu kata utuh di kalimat indikasi
+                        # Pencarian kata utuh yang presisi
                         if word in indika.split():
                             cocok_indikasi = True
                             break
-                    if cocok_indikasi:
-                        break
+                    if cocok_indikasi: break
                 
-                # Cek Kontraindikasi
                 ada_kontraindikasi = any(kontra in kondisi for kontra in obat["kontraindikasi"]) if kondisi else False
                 
                 if cocok_indikasi and not ada_kontraindikasi:
